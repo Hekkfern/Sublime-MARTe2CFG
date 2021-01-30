@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: MARTe2 CFG
+file_extensions:
+  - cfg
+scope: source.marte2
+uuid: baf0c63a-2f7f-49d2-993b-704b35552e3f
+contexts:
+  main:
+    # Comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      scope: punctuation.definition.comment.marte2
+      push: line_comment
+
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.marte2
+      push: double_quoted_string
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.marte2
+
+    # Functions
+    - match: '\b([+]?Types|[+]?Functions|[+]?States|[+]?Data|[+]?Threads|[+]?Scheduler)\b'
+      scope: support.function.marte2
+
+    # Types
+    - match: '\b(Type) = (uint8|uint16|uint32|uint64|int8|int16|int32|int64|char8|uintp|float32|float64)\b'
+      captures:
+        1: keyword.marte2
+        2: support.type.marte2
+    - match: '\bType\b'
+      scope: keyword.marte2
+
+    # Classes
+    - match: '(Class) = (RealTimeApplication|LoggerService|GAMDataSource|ReferenceContainer|RealTimeThreadSynchronisation|SimulinkWrapperGAM|TimingDataSource|LoggerDataSource|RealTimeState|RealTimeThread|GAMScheduler|IntrospectionStructure|IOGAM|LinuxTimer)\b'
+      captures:
+        1: keyword.marte2
+        2: entity.name.class.marte2
+    - match: '\bClass\b'
+      scope: keyword.marte2
+
+    # Keywords
+    - match: '\b([+]?Types|[+]?Functions|[+]?States|[+]?Data|[+]?Threads|[+]?Scheduler|CPUs|DataSource|NumberOfDimensions|NumberOfElements|DefaultDataSource|Alias|Samples|Frequency|InputSignals|OutputSignals|Parameters|Signals)\b'
+      scope: keyword.marte2
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.marte2
+    - match: '"'
+      scope: punctuation.definition.string.end.marte2
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.marte2
+    - match: $
+      pop: true
